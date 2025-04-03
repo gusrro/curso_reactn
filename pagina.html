@@ -1,0 +1,46 @@
+<html>
+    <head>
+        <title> Pagina </title>
+    </head>
+    <style>
+        .contenedor {
+            border: 1px solid gray;
+            background-color: lightgray;
+            display: flex;
+            flex-direction: row;
+            gap: 1em;
+        }
+        .caja {
+            border: 1px solid yellowgreen;
+            margin: 5px;
+            
+        }       
+        .caja1 {
+            border: 1px solid goldenrod;
+            background-color: lightgoldenrodyellow;
+            width: 100px;
+            flex-grow: 3;
+            flex-shrink: 5;
+            
+        }
+        .caja2 {
+            border: 2px dashed red;
+            background-color: lightcoral;
+            width: 100px;
+            flex-basis: 300px;
+        }
+        .caja3 {
+            border: 3px dotted blue;
+            background-color: lightblue;
+            width: 100px;
+            flex-grow: 1;
+        }
+    </style>
+    <body>
+        <div class="contenedor">
+            <div class="caja caja1"> Caja 1   </div>
+            <div class="caja caja2"> Caja 2   </div>
+            <div class="caja caja3"> Bansí   </div>
+        </div>
+    </body>
+</html>
