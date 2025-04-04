@@ -11,17 +11,17 @@ type properties = {
 }
 
 const ListaEmojis = ( {onSelect, onClose}:properties) => {
-    const emojis = [require('@/assets/images/tortuga.jpeg'), require('@/assets/images/dado.jpeg')
-    , require('@/assets/images/control.jpeg'), require('@/assets/images/eclair.jpeg')
-    , require('@/assets/images/extintor.jpeg'), require('@/assets/images/emoji.jpeg') 
-    , require('@/assets/images/fiesta.jpeg') ];
+    const emojis = [require('@/assets/images/tortuga.png'), require('@/assets/images/dado.png')
+    , require('@/assets/images/control.png'), require('@/assets/images/eclair.png')
+    , require('@/assets/images/extintor.png'), require('@/assets/images/emoji.png') 
+    , require('@/assets/images/fiesta.png'), require('@/assets/images/lifter.png') ];
 
   return (
     <View>
       <FlatList data={emojis} horizontal
         renderItem={({item, index}) => (
                         // {
-            //     let uriImage = `@/assets/images/${item}.jpeg`
+            //     let uriImage = `@/assets/images/${item}.png`
             // }
             <Pressable onPress={() => {
               onSelect(item);

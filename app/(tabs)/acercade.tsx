@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View,  Button } from 'react-native'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import Boton from '@/components/Boton';
 import * as ImagePicker from 'expo-image-picker'
 import { Image, ImageSource } from 'expo-image';
@@ -8,6 +8,9 @@ import BotonIcono from '@/components/botonIcono';
 import ModalEmojis from '@/components/ModalEmojis';
 import ListaEmojis from '@/components/ListaEmojis';
 import EmojiSticker from '@/components/EmojiSticker';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import * as MediaLibrary from 'expo-media-library'
+import { captureRef } from 'react-native-view-shot';
 
 
 const logo = require("@/assets/images/bansi2.jpg");
@@ -30,22 +33,43 @@ const acercade = () => {
   const [mostrarBotones, setMostrarBotones] = useState(false);
   const [mostrarModal, setMostrarModal] = useState(false);
   const [emojiSelected, setEmojiSelected] = useState<ImageSource|undefined>();
+  const [permission, requestPermission] =  MediaLibrary.usePermissions();
 
+  const refView = useRef(null);
+
+  const saveImage = async () => {
+    const resultImage = await captureRef(refView, {
+      format: "png",
+      quality: 1,
+      height: 400,
+      width: 400,
+    })
+    await MediaLibrary.saveToLibraryAsync(resultImage);
+    if (null != resultImage) {
+      alert("Imagen guardada en la galeria");
+    }
+  }
+
+
+  if ( null === permission) {
+    requestPermission();
+  }
 
   return (
 
-
-    <View style={styles.container}>
+    <GestureHandlerRootView style={styles.container}>
       <View style={styles.imageContainer}>
+      <View  ref={refView} collapsable={false} >
         <Image source={ varImagen||logo} style={{ width: 250, height: 250 }} />
         {emojiSelected &&
           <EmojiSticker size={50} path={emojiSelected}/>
         }
       </View>
+      </View>
     {mostrarBotones ? (
       <View style={styles.viewBotonera}>
       <View style={styles.botoneraGral}>
-        <BotonIcono onpress={()=>(alert("Pruebas Icono.."))} nombreIcon='save' texto='Grabar'></BotonIcono>
+        <BotonIcono onpress={saveImage} nombreIcon='save' texto='Grabar'></BotonIcono>
         <BotonCircular onpress={()=>setMostrarModal(true)}></BotonCircular>
         <BotonIcono onpress={()=>setMostrarBotones(false)} nombreIcon='refresh' texto='Refrescar'></BotonIcono>
       </View>
@@ -58,7 +82,7 @@ const acercade = () => {
       <ModalEmojis esVisible={mostrarModal} onClose={() => setMostrarModal(false)}> 
           <ListaEmojis onClose={() => setMostrarModal(false)} onSelect={setEmojiSelected}/>
       </ModalEmojis>
-    </View>
+    </GestureHandlerRootView>
   )
 }
 
@@ -72,7 +96,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   imageContainer: {
-    flex: 3,
+    flex: 1,
   },
   viewBotonera:{
     position: "absolute",
